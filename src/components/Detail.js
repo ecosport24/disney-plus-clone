@@ -36,7 +36,7 @@ const Detail = () => {
           For the first time ever, Uta - the most beloved singer in the world -
           will reveal herself to the world at a live concert. The voice that the
           whole world has been waiting for is about to resound.
-        </p>{" "}
+        </p>
         <p>
           Uta - the most beloved singer in the world. Her voice, which she sings
           with while concealing her true identity, has been described as
@@ -163,4 +163,5 @@ const Description = styled.div`
   font-size: 20px;
   margin-top: 16px;
   line-height: 1.4;
+  max-width: 900px;
 `;
