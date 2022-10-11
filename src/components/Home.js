@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { setMovies } from "../features/movie/MovieSlice";
 import ImageSlider from "./ImageSlider";
 import Movies from "./Movies";
 import Viewers from "./Viewers";
+import tmbd from "../tmbd";
 
 const Home = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fecthMovies = async () => {
+      const { data } = await tmbd.get("movie/popular");
+      dispatch(setMovies(data.results));
+    };
+
+    fecthMovies();
+  }, []);
+
   return (
     <Container>
       <ImageSlider />

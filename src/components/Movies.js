@@ -1,44 +1,27 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
-import tmbd from "../tmbd";
+import { selectMovies } from "../features/movie/MovieSlice";
 
 const Movies = () => {
   const getPosterPath = (poster) => {
     return `https://www.themoviedb.org/t/p/w220_and_h330_face/${poster}`;
   };
 
-  const [movies, setMovies] = useState([]);
-
-  useEffect(() => {
-    // DEFAULT WAY TO APPLY AXIOUS
-    // axios
-    //   .get(
-    //     "https://api.themoviedb.org/3/movie/popular?api_key=15e383204c1b8a09dbfaaa4c01ed7e17&language=en-US&page=1"
-    //   )
-    //   .then((response) => setMovies(response.data.results))
-    //   .catch((error) => console.log(error));
-
-    // STANDARD WAY TO APPLY AXIOUS
-    const fecthMovies = async () => {
-      const { data } = await tmbd.get("movie/popular");
-      setMovies(data.results);
-    };
-
-    fecthMovies();
-  }, []);
+  const movies = useSelector(selectMovies);
 
   return (
     <Container>
       <h4>Recomended for you</h4>
       <Content>
-        {movies.map((movie, index) => {
-          return (
-            <Wrap key={index}>
-              <img src={getPosterPath(movie.poster_path)} alt="" />
-            </Wrap>
-          );
-        })}
+        {movies &&
+          movies.map((movie, index) => {
+            return (
+              <Wrap key={index}>
+                <img src={getPosterPath(movie.poster_path)} alt="" />
+              </Wrap>
+            );
+          })}
       </Content>
     </Container>
   );
