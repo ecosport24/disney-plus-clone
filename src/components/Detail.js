@@ -1,53 +1,71 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import tmbd from "../tmbd";
 
 const Detail = () => {
+  const { id } = useParams();
+  const [movie, setMovie] = useState();
+
+  const getPosterPath = (poster, isPoster = true) => {
+    const imgSize = isPoster ? "w500" : "original";
+    return `https://www.themoviedb.org/t/p/${imgSize}/${poster}`;
+  };
+
+  const timeFormat = (runtimeInMinutes) => {
+    const hour = Math.floor(runtimeInMinutes / 60);
+    const min = runtimeInMinutes % 60;
+    return `${hour}h: ${min}m`;
+  };
+
+  useEffect(() => {
+    const getMovie = async () => {
+      const { data } = await tmbd.get(`movie/${id}`);
+      if (data) {
+        setMovie(data);
+        console.log(data);
+      }
+    };
+    getMovie();
+  }, []);
+
   return (
     <Container>
-      <Background>
-        <img src="https://images6.alphacoders.com/124/1248742.jpg" />
-      </Background>
-      <ImageTitle src="https://dx35vtwkllhj9.cloudfront.net/crunchy-roll/one-piece-film-red/images/regions/intl/tt.png">
-        {/* <img src="https://dx35vtwkllhj9.cloudfront.net/crunchy-roll/one-piece-film-red/images/regions/intl/tt.png" /> */}
-      </ImageTitle>
-
-      <Controls>
-        <PlayButton>
-          <img src="/images/play-icon-black.png" />
-          <span>PLAY</span>
-        </PlayButton>
-        <TrailerButton>
-          <img src="/images/play-icon-white.png" />
-          <span>Trailer</span>
-        </TrailerButton>
-        <AddButton>
-          <span>+</span>
-        </AddButton>
-        <GroupWatchButton>
-          <img src="/images/group-icon.png" />
-        </GroupWatchButton>
-      </Controls>
-
-      <SubTitle>
-        2022 • 1h 55m • Action • Animation • Adventure • Fantasy
-      </SubTitle>
-      <Description>
-        <p>
-          For the first time ever, Uta - the most beloved singer in the world -
-          will reveal herself to the world at a live concert. The voice that the
-          whole world has been waiting for is about to resound.
-        </p>
-        <p>
-          Uta - the most beloved singer in the world. Her voice, which she sings
-          with while concealing her true identity, has been described as
-          "otherworldly." She will appear in public for the first time at a live
-          concert. As the venue fills with all kinds of Uta fans - excited
-          pirates, the Navy watching closely, and the Straw Hats led by Luffy
-          who simply came to enjoy her sonorous performance - the voice that the
-          whole world has been waiting for is about to resound. The story begins
-          with the shocking fact that she is "Shanks' daughter."
-        </p>
-      </Description>
+      {movie && (
+        <>
+          <Background>
+            <img src={getPosterPath(movie.backdrop_path, false)} />
+          </Background>
+          <ImageTitle src={getPosterPath(movie.poster_path)}> </ImageTitle>
+          <Controls>
+            <PlayButton>
+              <img src="/images/play-icon-black.png" />
+              <span>PLAY</span>
+            </PlayButton>
+            <TrailerButton>
+              <img src="/images/play-icon-white.png" />
+              <span>Trailer</span>
+            </TrailerButton>
+            <AddButton>
+              <span>+</span>
+            </AddButton>
+            <GroupWatchButton>
+              <img src="/images/group-icon.png" />
+            </GroupWatchButton>
+          </Controls>
+          <SubTitle>
+            {new Date(movie.release_date).toLocaleDateString()} •
+            {` ${timeFormat(movie.runtime)}`}
+            {movie.genres.map((genre) => {
+              return ` • ${genre.name} `;
+            })}
+            Fantasy
+          </SubTitle>
+          <Description>
+            <p>{movie.overview}</p>
+          </Description>
+        </>
+      )}
     </Container>
   );
 };
@@ -67,25 +85,28 @@ const Background = styled.div`
   left: 0;
   right: 0;
   z-index: -1;
-  opacity: 0.6;
+  opacity: 0.2;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    // object-position: top left;
   }
 `;
 
 const ImageTitle = styled.div`
-  //   height: 25vh;
   margin-top: 20px;
-  height: 250px;
-  //   width: 35vw;
+  // height: 25vh;
+  // width: 35vw;
+  height: 450px;
   width: 300px;
   background-image: ${(props) => `url('${props.src}')`};
-  background-position: top-center;
+  background-position: bottom;
   background-size: cover;
   background-repeat: no-repeat;
+  display: flex;
+  border-radius: 10px;
 `;
 // const ImageTitle = styled.div`
 //   height: 30vh;

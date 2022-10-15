@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Header = () => {
@@ -6,10 +7,12 @@ const Header = () => {
     <Nav>
       <Logo src="/images/logo.svg"></Logo>
       <NavMenu>
-        <a href="#">
-          <img src="/images/home-icon.svg" />
-          <span>HOME</span>
-        </a>
+        <Link to={"/"}>
+          <a>
+            <img src="/images/home-icon.svg" />
+            <span>HOME</span>
+          </a>
+        </Link>
         <a href="#">
           <img src="/images/watchlist-icon.svg" />
           <span>watchlist</span>

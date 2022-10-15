@@ -1,11 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { selectMovies } from "../features/movie/MovieSlice";
 
 const Movies = () => {
   const getPosterPath = (poster) => {
-    return `https://www.themoviedb.org/t/p/w220_and_h330_face/${poster}`;
+    return `https://www.themoviedb.org/t/p/w500/${poster}`;
   };
 
   const movies = useSelector(selectMovies);
@@ -17,8 +18,10 @@ const Movies = () => {
         {movies &&
           movies.map((movie, index) => {
             return (
-              <Wrap key={index}>
-                <img src={getPosterPath(movie.poster_path)} alt="" />
+              <Wrap key={movie.id}>
+                <Link to={`/detail/${movie.id}`}>
+                  <img src={getPosterPath(movie.poster_path)} alt="" />
+                </Link>
               </Wrap>
             );
           })}
