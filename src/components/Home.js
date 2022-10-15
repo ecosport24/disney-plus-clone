@@ -6,6 +6,7 @@ import ImageSlider from "./ImageSlider";
 import Movies from "./Movies";
 import Viewers from "./Viewers";
 import tmbd from "../tmbd";
+import db from "../firebase";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ const Container = styled.main`
   min-height: calc(100vh - 70px);
   padding: 0 calc(3.5vw + 5px);
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden;
 
   &:before {
     background: url("/images/home-background.png") center center / cover

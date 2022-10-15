@@ -23,7 +23,6 @@ const Detail = () => {
       const { data } = await tmbd.get(`movie/${id}`);
       if (data) {
         setMovie(data);
-        console.log(data);
       }
     };
     getMovie();
